@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
-      host: 10.13.7.115
+      host: localhost
       port: 6379
       lettuce:
         pool:
@@ -15,7 +15,6 @@ spring:
           min-idle: 1
           time-between-eviction-runs: 10s
       timeout: 5000
-      password: wozhidaonihenjidannixianbieji
 
 
 server:
@@ -24,3 +23,9 @@ server:
 mybatis-plus:
   mapper-locations: classpath:mapper/*xml
   type-aliases-package: com.project.myblog.entity
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true

@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * 通用返回结果类
+ *
  * @param <T>
  */
 @Data
@@ -25,6 +26,14 @@ public class R<T> {
         R<T> r = new R<T>();
         r.data = object;
         r.code = 200;
+        return r;
+    }
+
+    public static <T> R success() {
+        R r = new R();
+        r.data = null;
+        r.code = 200;
+        r.msg = "ok";
         return r;
     }
 

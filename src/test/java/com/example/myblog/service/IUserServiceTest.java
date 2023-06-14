@@ -11,9 +11,8 @@ class IUserServiceTest {
     @Autowired
     IUserService userService;
 
-
     @Test
-    void loginTest() {
+    void listTest() {
         System.out.println(userService.list());
     }
 }
