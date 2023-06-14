@@ -1,6 +1,7 @@
 package com.example.myblog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,7 +23,11 @@ public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @TableField("type")
+    private int userType;
+
     @ApiModelProperty(value = "用户名")
+    @TableField("name")
     private String userName;
 
     @ApiModelProperty(value = "用户的密码")
@@ -35,6 +40,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "邮箱")
     private  String email;
     @ApiModelProperty(value = "头像")
+    @TableField("headshotPath")
     private  String avatar;
 
 }
