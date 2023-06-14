@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Blog_Tag_Relation {
-    private int id;
-    @TableField("bid")
+public class Blog_Tags {
+    @TableField("blogs_id")
     private int blogId;
-    @TableField("tid")
+    @TableField("tags_id")
     private int tagId;
 }

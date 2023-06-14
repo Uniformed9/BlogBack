@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User_Favorites_Blog {
     private int id;
-    @TableField("uid")
+    @TableField("user_id")
     private int userId;
-    @TableField("bid")
+    @TableField("favorites_id")
+    private int favoritesId;
+    @TableField("blog_id")
     private int blogId;
 }

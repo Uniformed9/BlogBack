@@ -27,7 +27,6 @@ public class User implements Serializable {
     private int userType;
 
     @ApiModelProperty(value = "用户名")
-    @TableField("name")
     private String userName;
 
     @ApiModelProperty(value = "用户的密码")
@@ -40,7 +39,6 @@ public class User implements Serializable {
     @ApiModelProperty(value = "邮箱")
     private  String email;
     @ApiModelProperty(value = "头像")
-    @TableField("headshotPath")
     private  String avatar;
 
 }
