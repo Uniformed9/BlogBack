@@ -25,16 +25,20 @@ public class UserController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public R<User> login(@RequestBody @ApiParam("userName和Password") Map<String, String> map, HttpSession session, ServletRequest servletRequest){
-        System.out.println("dfsf");
+
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String token = request.getHeader("Authorization");
         User user = userService.login(map, session);
-        System.out.println(user);
+
         if (user!=null){
             return R.success(user);
         }else{
             return R.error("登录失败");
         }
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "测试接口";
     }
 
 }
