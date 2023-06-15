@@ -51,8 +51,11 @@
 //        return R.error(message);
 //    }
 //
-//
-//
+//    @ExceptionHandler(SameNameException.class)
+//    public  R<String> SameNameException(SameNameException e){
+//        String message=e.getMessage();
+//        return R.error(message);
+//    }
 //    @ExceptionHandler(SameFileException.class)
 //    public R<String> SameFileException(SameFileException exception){
 //        String message=exception.getMessage();
