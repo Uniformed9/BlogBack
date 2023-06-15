@@ -9,7 +9,7 @@ import java.util.HashMap;
 @SpringBootTest
 class IUserServiceTest {
     @Autowired
-    IUserService userService;
+    UserService userService;
 
     @Test
     void listTest() {

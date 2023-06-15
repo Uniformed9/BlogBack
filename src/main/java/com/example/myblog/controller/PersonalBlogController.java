@@ -2,7 +2,7 @@ package com.example.myblog.controller;
 
 import com.example.myblog.common.R;
 import com.example.myblog.entity.Blog;
-import com.example.myblog.service.IBlogService;
+import com.example.myblog.service.BlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.sql.Time;
 @Api(tags = "个人博客接口")
 public class PersonalBlogController {
     @Autowired
-    IBlogService blogService;
+    BlogService blogService;
 
     @ApiOperation(value = "我的博客")
     @GetMapping()

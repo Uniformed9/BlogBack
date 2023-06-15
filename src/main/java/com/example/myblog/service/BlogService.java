@@ -6,7 +6,7 @@ import com.example.myblog.entity.Blog;
 import java.sql.Time;
 import java.util.List;
 
-public interface IBlogService extends IService<Blog> {
+public interface BlogService extends IService<Blog> {
 
     List<Blog> allBlogs();
 

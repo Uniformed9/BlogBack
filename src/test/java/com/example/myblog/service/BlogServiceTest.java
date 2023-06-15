@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class IBlogServiceTest {
+public class BlogServiceTest {
 
     @Autowired
-    IBlogService blogService;
+    BlogService blogService;
     @Autowired
     BlogMapper blogMapper;
 
