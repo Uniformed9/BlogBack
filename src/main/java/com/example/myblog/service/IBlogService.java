@@ -12,13 +12,15 @@ public interface IBlogService extends IService<Blog> {
 
     List<Blog> searchBlog(Time startTime, Time endTime, String searchTerm);
 
-    List<Blog> personalBlogsSearch(int id, String searchTerm);
+    List<Blog> personalBlogsSearch(int id, Time startTime, Time endTime, String searchTerm);
 
     List<Blog> personalBlogs(int id);
 
-    void deleteBlog(int id);
+    boolean deleteBlog(int id);
 
     void insertBlog(Blog blog);
 
-    void modifyBlog(Blog blog);
+    boolean modifyBlog(Blog blog);
+
+    boolean isBlogExist(int id);
 }

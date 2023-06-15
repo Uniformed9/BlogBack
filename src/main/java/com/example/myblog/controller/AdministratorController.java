@@ -20,6 +20,7 @@ public class AdministratorController {
     @ApiOperation(value = "删除博客")
     @DeleteMapping(path = "/blogs/{blog_id}")
     public R deleteBlog(@PathVariable int blog_id) {
+        blogService.deleteBlog(blog_id);
         return R.success();
     }
 }
