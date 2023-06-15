@@ -15,4 +15,9 @@ public class TagServiceTest {
         System.out.println(tagService.list());
     }
 
+    @Test
+    void getBlogListByTagIdTest(){
+        System.out.println(tagService.getBlogByTagId(1));
+    }
+
 }

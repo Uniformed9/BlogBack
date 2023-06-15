@@ -11,8 +11,6 @@ public class BlogServiceTest {
 
     @Autowired
     BlogService blogService;
-    @Autowired
-    BlogMapper blogMapper;
 
     @Test
     void listTest() {
@@ -24,4 +22,8 @@ public class BlogServiceTest {
         System.out.println(blogService.searchBlog(null, null, "test"));
     }
 
+    @Test
+    void getTagsByBlogIdTest(){
+        System.out.println(blogService.getTagsByBlogId(1));
+    }
 }
