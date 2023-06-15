@@ -1,12 +1,14 @@
 package com.example.myblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.myblog.common.R;
 import com.example.myblog.entity.Blog;
 
 import java.sql.Time;
 import java.util.List;
 
 public interface IBlogService extends IService<Blog> {
+
 
     List<Blog> allBlogs();
 
@@ -21,4 +23,8 @@ public interface IBlogService extends IService<Blog> {
     void insertBlog(Blog blog);
 
     void modifyBlog(Blog blog);
+
+    R hotbloglist();
+
+    R timebloglist();
 }

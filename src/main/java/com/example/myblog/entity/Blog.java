@@ -22,4 +22,6 @@ public class Blog {
     private int views;
     @TableField("user_id")
     private int userId;
+    @TableField("user_nick_name")
+    private  String userNickname;
 }

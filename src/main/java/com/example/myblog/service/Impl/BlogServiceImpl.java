@@ -1,6 +1,9 @@
 package com.example.myblog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.myblog.common.R;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.mapper.BlogMapper;
 import com.example.myblog.service.IBlogService;
@@ -23,6 +26,39 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         columnMap.put("user_id", userId);
         return blogMapper.selectByMap(columnMap);
     }
+
+    @Override
+    public R hotbloglist() {
+        LambdaQueryWrapper<Blog> queryWrapper=new LambdaQueryWrapper<>();
+        //博客必须已经发表
+        queryWrapper.eq(Blog::getPublished,true);
+        //按浏览量降序排列
+        queryWrapper.orderByDesc(Blog::getViews);
+        //最多显示有限条
+        Page<Blog> page=new Page();
+        page(page,queryWrapper);
+
+        List<Blog> Blogs=page.getRecords();
+
+        return R.success(Blogs);
+    }
+
+    @Override
+    public R timebloglist() {
+        LambdaQueryWrapper<Blog> queryWrapper=new LambdaQueryWrapper<>();
+        //博客必须已经发表
+        queryWrapper.eq(Blog::getPublished,true);
+        //按浏览量降序排列
+        queryWrapper.orderByDesc(Blog::getUpdateTime);
+        //最多显示有限条
+        Page<Blog> page=new Page();
+        page(page,queryWrapper);
+
+        List<Blog> Blogs=page.getRecords();
+
+        return R.success(Blogs);
+    }
+
 
     @Override
     public List<Blog> allBlogs() {
