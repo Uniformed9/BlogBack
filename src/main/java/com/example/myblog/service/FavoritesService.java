@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface FavoritesService extends IService<UserFavoritesBlog> {
 
-    void insertFavorites(int userId);
+    void insertFavorites(int userId, String name);
 
     List<Favorites> getFavorites(int userId);
 
-    boolean modifyFavoritesDescription(int userId, int favoritesId, String description);
+    boolean updateFavoritesName(int userId, int favoritesId, String name);
 
     boolean deleteFavorites(int userId, int favoritesId);
 
@@ -23,5 +23,7 @@ public interface FavoritesService extends IService<UserFavoritesBlog> {
 
     boolean deleteBlogInFavorites(int userId, int favoritesId, int blogId);
 
+    boolean isFavoritesExist(int userId, int favoritesId);
 
+    Favorites getFavorites(int userId, int favoritesId);
 }

@@ -61,7 +61,7 @@ public interface BlogService extends IService<Blog> {
      * @param blog
      * @return
      */
-    boolean modifyBlog(Blog blog);
+    boolean updateBlog(Blog blog);
 
     /**
      * 博客是否存在

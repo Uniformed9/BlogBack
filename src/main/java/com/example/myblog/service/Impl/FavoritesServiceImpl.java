@@ -1,49 +1,114 @@
 package com.example.myblog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.Favorites;
 import com.example.myblog.entity.UserFavoritesBlog;
+import com.example.myblog.mapper.BlogMapper;
+import com.example.myblog.mapper.FavoritesMapper;
 import com.example.myblog.mapper.UserFavoritesBlogMapper;
 import com.example.myblog.service.FavoritesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper,UserFavoritesBlog> implements FavoritesService {
-    @Override
-    public void insertFavorites(int userId) {
+public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper, UserFavoritesBlog> implements FavoritesService {
 
+    @Autowired
+    BlogMapper blogMapper;
+    @Autowired
+    FavoritesMapper favoritesMapper;
+    @Autowired
+    UserFavoritesBlogMapper userFavoritesBlogMapper;
+
+    @Override
+    public Favorites getFavorites(int userId, int favoritesId) {
+        LambdaQueryWrapper<Favorites> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Favorites::getUserId, userId);
+        wrapper.eq(Favorites::getId, favoritesId);
+        Favorites f = favoritesMapper.selectOne(wrapper);
+        if (f == null) return null;
+        else return f;
+    }
+
+    @Override
+    public boolean isFavoritesExist(int userId, int favoritesId) {
+        if (getFavorites(userId, favoritesId) == null) return false;
+        else return true;
+    }
+
+    @Override
+    public void insertFavorites(int userId, String name) {
+        Favorites f = new Favorites();
+        f.setUserId(userId);
+        f.setName(name);
+        favoritesMapper.insert(f);
     }
 
     @Override
     public List<Favorites> getFavorites(int userId) {
-        return null;
+        LambdaQueryWrapper<Favorites> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Favorites::getUserId, userId);
+        List<Favorites> fl = favoritesMapper.selectList(wrapper);
+        if (fl == null || fl.size() == 0) return null;
+        return fl;
     }
 
     @Override
-    public boolean modifyFavoritesDescription(int userId, int favoritesId, String description) {
-        return false;
+    public boolean updateFavoritesName(int userId, int favoritesId, String name) {
+        Favorites f = getFavorites(userId, favoritesId);
+        if (f == null) return false;
+        f.setName(name);
+        favoritesMapper.updateById(f);
+        return true;
     }
 
     @Override
     public boolean deleteFavorites(int userId, int favoritesId) {
-        return false;
+        Favorites f = getFavorites(userId, favoritesId);
+        if (f == null) return false;
+        favoritesMapper.deleteById(favoritesId);
+        LambdaQueryWrapper<UserFavoritesBlog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserFavoritesBlog::getFavoritesId, favoritesId);
+        userFavoritesBlogMapper.delete(wrapper);
+        return true;
     }
 
     @Override
     public void insertBlogToFavorites(int userId, int favoritesId, int blogId) {
-
+        UserFavoritesBlog ufb = new UserFavoritesBlog();
+        ufb.setUserId(userId);
+        ufb.setFavoritesId(favoritesId);
+        ufb.setBlogId(blogId);
+        userFavoritesBlogMapper.insert(ufb);
     }
 
     @Override
     public List<Blog> getBlogs(int userId, int favoritesId) {
-        return null;
+        List<Blog> ret = new ArrayList<>();
+        LambdaQueryWrapper<UserFavoritesBlog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserFavoritesBlog::getUserId, userId);
+        wrapper.eq(UserFavoritesBlog::getFavoritesId, favoritesId);
+        List<UserFavoritesBlog> l = userFavoritesBlogMapper.selectList(wrapper);
+        if (l == null || l.size() == 0) return null;
+        for (UserFavoritesBlog ufb : l)
+            ret.add(blogMapper.selectOne(new LambdaQueryWrapper<Blog>().eq(Blog::getId, ufb.getBlogId())));
+        return ret;
     }
 
     @Override
     public boolean deleteBlogInFavorites(int userId, int favoritesId, int blogId) {
-        return false;
+        LambdaQueryWrapper<UserFavoritesBlog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserFavoritesBlog::getUserId, userId);
+        wrapper.eq(UserFavoritesBlog::getFavoritesId, favoritesId);
+        wrapper.eq(UserFavoritesBlog::getBlogId, blogId);
+        UserFavoritesBlog ufb = userFavoritesBlogMapper.selectOne(wrapper);
+        if (ufb == null) return false;
+        userFavoritesBlogMapper.deleteById(ufb);
+        return true;
     }
 }

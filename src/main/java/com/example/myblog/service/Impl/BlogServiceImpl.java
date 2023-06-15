@@ -30,7 +30,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public List<Tag> getTagsByBlogId(int blogId) {
-        List<BlogTags> l = blogTagsMapper.selectList(new LambdaQueryWrapper<BlogTags>().eq(BlogTags::getBlogId,blogId));
+        List<BlogTags> l = blogTagsMapper.selectList(new LambdaQueryWrapper<BlogTags>().eq(BlogTags::getBlogId, blogId));
         if (l == null || l.size() == 0) return null;
         List<Tag> tl = new ArrayList<>();
         for (BlogTags blogTags : l) {
@@ -120,15 +120,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
-    public boolean modifyBlog(Blog blog) {
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getId, blog.getId());
-        if (blogMapper.exists(wrapper)) {
-            removeById(blog.getId());
-            insertBlog(blog);
-            return true;
-        } else {
-            return false;
-        }
+    public boolean updateBlog(Blog blog) {
+        if (blogMapper.updateById(blog) < 0)return false;
+        return true;
     }
 }

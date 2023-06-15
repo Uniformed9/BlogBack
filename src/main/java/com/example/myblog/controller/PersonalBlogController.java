@@ -39,8 +39,7 @@ public class PersonalBlogController {
     @PostMapping()
     public R createMyBlog(@RequestBody Blog blog) {
         if (blogService.isBlogExist(blog.getId())) {
-            System.out.println(blog.getId());
-            return R.error("Blog is exist, cannot create an exist blog.\n" + blog.getId());
+            return R.error("Blog is exist, cannot create an exist blog.");
         } else {
             blogService.insertBlog(blog);
         }
@@ -50,6 +49,6 @@ public class PersonalBlogController {
     @ApiOperation(value = "更新博客")
     @PutMapping()
     public R updateMyBlog(@RequestBody Blog blog) {
-        return R.success(blogService.modifyBlog(blog));
+        return R.success(blogService.updateBlog(blog));
     }
 }
