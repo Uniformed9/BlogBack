@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Blog_Tags {
+public class BlogTags {
     @TableField("blogs_id")
     private int blogId;
     @TableField("tags_id")

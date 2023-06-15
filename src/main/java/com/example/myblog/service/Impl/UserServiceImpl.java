@@ -193,4 +193,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Map<Integer, User> getUserMap() {
         return userMapper.getUserMap();
     }
+
+    @Override
+    public User selectUserByuserId(int id) {
+        return userMapper.selectById(id);
+    }
 }

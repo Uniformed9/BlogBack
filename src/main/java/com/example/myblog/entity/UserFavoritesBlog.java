@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class User_Favorites_Blog {
+public class UserFavoritesBlog {
     private int id;
     @TableField("user_id")
     private int userId;

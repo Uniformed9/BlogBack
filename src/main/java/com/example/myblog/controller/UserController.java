@@ -55,5 +55,4 @@ public class UserController {
     public String test(){
         return "测试接口";
     }
-
 }

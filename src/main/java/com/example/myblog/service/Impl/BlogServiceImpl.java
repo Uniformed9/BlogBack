@@ -3,7 +3,11 @@ package com.example.myblog.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.myblog.entity.Blog;
+import com.example.myblog.entity.BlogTags;
+import com.example.myblog.entity.Tag;
 import com.example.myblog.mapper.BlogMapper;
+import com.example.myblog.mapper.BlogTagsMapper;
+import com.example.myblog.mapper.TagMapper;
 import com.example.myblog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,24 @@ import java.util.stream.Stream;
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements BlogService {
     @Autowired
     BlogMapper blogMapper;
+
+    @Autowired
+    BlogTagsMapper blogTagsMapper;
+
+    @Autowired
+    TagMapper tagMapper;
+
+    @Override
+    public List<Tag> getTagsByBlogId(int blogId) {
+        List<BlogTags> l = blogTagsMapper.selectList(new LambdaQueryWrapper<BlogTags>().eq(BlogTags::getBlogId,blogId));
+        if (l == null || l.size() == 0) return null;
+        List<Tag> tl = new ArrayList<>();
+        for (BlogTags blogTags : l) {
+            int tid = blogTags.getTagId();
+            tl.add(tagMapper.selectOne(new LambdaQueryWrapper<Tag>().eq(Tag::getId, tid)));
+        }
+        return tl;
+    }
 
     @Override
     public List<Blog> personalBlogs(int userId) {
@@ -62,9 +84,16 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public boolean isBlogExist(int id) {
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getId, id);
-        return blogMapper.selectList(wrapper).size() > 0;
+//        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(Blog::getId, id);
+        return blogMapper.selectList(new LambdaQueryWrapper<Blog>().eq(Blog::getId, id)).size() > 0;
+    }
+
+    @Override
+    public Blog getBlogById(int id) {
+//        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(Blog::getId, id);
+        return blogMapper.selectOne(new LambdaQueryWrapper<Blog>().eq(Blog::getId, id));
     }
 
     @Override
@@ -81,6 +110,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public boolean deleteBlog(int id) {
+        if (!isBlogExist(id)) return false;
         return removeById(id);
     }
 

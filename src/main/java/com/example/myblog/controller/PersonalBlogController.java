@@ -39,7 +39,8 @@ public class PersonalBlogController {
     @PostMapping()
     public R createMyBlog(@RequestBody Blog blog) {
         if (blogService.isBlogExist(blog.getId())) {
-            return R.error("Blog is exist, cannot create an exist blog.");
+            System.out.println(blog.getId());
+            return R.error("Blog is exist, cannot create an exist blog.\n" + blog.getId());
         } else {
             blogService.insertBlog(blog);
         }

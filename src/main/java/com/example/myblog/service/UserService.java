@@ -12,4 +12,6 @@ public interface UserService extends IService<User> {
 
     User login(@RequestBody Map<String,String> map, HttpSession session);
     Map<Integer,User> getUserMap();
+
+    User selectUserByuserId(int id);
 }
