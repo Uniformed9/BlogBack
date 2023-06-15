@@ -1,7 +1,7 @@
 package com.example.myblog.controller;
 
 import com.example.myblog.common.R;
-import com.example.myblog.service.IBlogService;
+import com.example.myblog.service.BlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "首页接口")
 public class HomeController {
     @Autowired
-    IBlogService blogService;
+    BlogService blogService;
 
     @ApiOperation(value = "热门博客列表")
     @GetMapping(path="/hotbloglist")
     public R hotbloglist(){
-        R result =blogService.hotbloglist();
-        return result;
+
+        return R.success(blogService.hotbloglist());
     }
     @ApiOperation(value = "最新博客列表")
     @GetMapping(path="/timebloglist")
     public R timebloglist(){
-        R result =blogService.timebloglist();
-        return result;
+        return R.success(blogService.timebloglist());
     }
 }

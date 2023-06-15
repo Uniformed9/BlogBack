@@ -7,24 +7,25 @@ import com.example.myblog.entity.Blog;
 import java.sql.Time;
 import java.util.List;
 
-public interface IBlogService extends IService<Blog> {
-
+public interface BlogService extends IService<Blog> {
 
     List<Blog> allBlogs();
 
     List<Blog> searchBlog(Time startTime, Time endTime, String searchTerm);
 
-    List<Blog> personalBlogsSearch(int id, String searchTerm);
+    List<Blog> personalBlogsSearch(int id, Time startTime, Time endTime, String searchTerm);
 
     List<Blog> personalBlogs(int id);
 
-    void deleteBlog(int id);
+    boolean deleteBlog(int id);
 
     void insertBlog(Blog blog);
 
-    void modifyBlog(Blog blog);
+    boolean modifyBlog(Blog blog);
 
-    R hotbloglist();
+    boolean isBlogExist(int id);
 
-    R timebloglist();
+    List<Blog> hotbloglist();
+
+    List<Blog>  timebloglist();
 }
