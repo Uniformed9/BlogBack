@@ -23,5 +23,5 @@ public class Blog {
     @TableField("user_id")
     private int userId;
     @TableField("user_nick_name")
-    private  String userNickname;
+    private String userNickname;
 }

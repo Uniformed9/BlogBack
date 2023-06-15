@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @TableName("user")
 
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;            //指定序列化版本号
 
     @ApiModelProperty(value = "用户id")
@@ -35,7 +37,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "用户是否禁用 0表示禁用 1表示正常")
     private Integer status;
     @ApiModelProperty(value = "昵称")
-    private String nick_name;
+    private String nickName;
     @ApiModelProperty(value = "邮箱")
     private  String email;
     @ApiModelProperty(value = "头像")

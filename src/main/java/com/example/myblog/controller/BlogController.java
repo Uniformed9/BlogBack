@@ -15,6 +15,7 @@ public class BlogController {
     @ApiOperation(value = "获取博客的内容")
     @GetMapping()
     public R getBlog(@PathVariable int id) {
+
         return R.success();
     }
 
