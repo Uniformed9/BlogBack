@@ -36,38 +36,26 @@ public interface BlogService extends IService<Blog> {
      * 博主的所有博客
      *
      * @param id 博主id
-     * @return 博客列表
      */
     List<Blog> personalBlogs(int id);
 
     /**
      * 删除博客
-     *
-     * @param id 将删除的博客id
-     * @return
      */
     boolean deleteBlog(int id);
 
     /**
      * 插入博客
-     *
-     * @param blog
      */
     void insertBlog(Blog blog);
 
     /**
      * 修改博客
-     *
-     * @param blog
-     * @return
      */
     boolean updateBlog(Blog blog);
 
     /**
      * 博客是否存在
-     *
-     * @param id 博客id
-     * @return
      */
     boolean isBlogExist(int id);
 
@@ -75,7 +63,6 @@ public interface BlogService extends IService<Blog> {
      * 根据id获取博客
      *
      * @param id 博客id
-     * @return
      */
     Blog getBlogById(int id);
 
@@ -83,7 +70,16 @@ public interface BlogService extends IService<Blog> {
      * 获取博客的标签
      *
      * @param id 博客id
-     * @return 标签列表
      */
     List<Tag> getTagsByBlogId(int id);
+
+    /**
+     * 热门博客
+     */
+    List<Blog> hotbloglist();
+
+    /**
+     * 最新博客
+     */
+    List<Blog> newestBlogList();
 }

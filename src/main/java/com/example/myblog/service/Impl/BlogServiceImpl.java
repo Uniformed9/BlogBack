@@ -1,6 +1,7 @@
 package com.example.myblog.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.BlogTags;
@@ -21,12 +22,32 @@ import java.util.stream.Stream;
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements BlogService {
     @Autowired
     BlogMapper blogMapper;
-
     @Autowired
     BlogTagsMapper blogTagsMapper;
-
     @Autowired
     TagMapper tagMapper;
+
+    @Override
+    public List<Blog> hotbloglist() {
+        LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Blog::getPublished, true);
+        queryWrapper.orderByDesc(Blog::getViews);
+        Page<Blog> page = new Page();
+        page(page, queryWrapper);
+        List<Blog> Blogs = page.getRecords();
+        return Blogs;
+    }
+
+    @Override
+    public List<Blog> newestBlogList() {
+        LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Blog::getPublished, true);
+        queryWrapper.orderByDesc(Blog::getUpdateTime);
+        Page<Blog> page = new Page();
+        page(page, queryWrapper);
+        List<Blog> Blogs = page.getRecords();
+        return Blogs;
+    }
 
     @Override
     public List<Tag> getTagsByBlogId(int blogId) {
@@ -49,6 +70,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public List<Blog> allBlogs() {
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Blog::getPublished, true);
         List<Blog> blogList = blogMapper.selectList(null);
         return blogList;
     }
@@ -56,6 +79,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public List<Blog> searchBlog(Time startTime, Time endTime, String searchTerm) {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Blog::getPublished, true);
         if (startTime != null) wrapper.ge(Blog::getCreateTime, startTime);
         if (endTime != null) wrapper.le(Blog::getCreateTime, endTime);
         LambdaQueryWrapper<Blog> NickNameWrapper = wrapper.clone().like(Blog::getUserNickname, searchTerm);
@@ -121,7 +145,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public boolean updateBlog(Blog blog) {
-        if (blogMapper.updateById(blog) < 0)return false;
-        return true;
+        return blogMapper.updateById(blog) >= 0;
     }
 }
