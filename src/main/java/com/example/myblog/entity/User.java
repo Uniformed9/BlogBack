@@ -43,4 +43,25 @@ public class User implements Serializable {
     @ApiModelProperty(value = "头像")
     private  String avatar;
 
+    public String getNickName() {
+        return nickName;
+    }
+    public int getType() {
+        return userType;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

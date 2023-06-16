@@ -6,12 +6,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
 
 @Data
+@Entity
 @NoArgsConstructor
 public class Blog {
+    @Id
     private int id;
     private byte commentabled;
     //    @TableField("create_date")
