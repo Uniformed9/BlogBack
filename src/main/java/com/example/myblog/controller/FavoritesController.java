@@ -18,7 +18,7 @@ public class FavoritesController {
 
     @ApiOperation("获取收藏夹列表")
     @GetMapping()
-    public R getFavorites(@PathVariable int user_id){
+    public R getFavorites(@PathVariable int user_id) {
         return R.success(favoritesService.getFavorites(user_id));
     }
 
@@ -51,8 +51,7 @@ public class FavoritesController {
     @ApiOperation(value = "添加收藏")
     @PostMapping(path = "/{favorites_id}")
     public R addBlogToFavorites(@PathVariable int user_id, @PathVariable int favorites_id, @RequestBody int blog_id) {
-        favoritesService.insertBlogToFavorites(user_id, favorites_id, blog_id);
-        return R.success();
+        return R.success(favoritesService.insertBlogToFavorites(user_id, favorites_id, blog_id));
     }
 
     @ApiOperation(value = "删除收藏")

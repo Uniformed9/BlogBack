@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.Favorites;
+import com.example.myblog.entity.User;
 import com.example.myblog.entity.UserFavoritesBlog;
 import com.example.myblog.mapper.BlogMapper;
 import com.example.myblog.mapper.FavoritesMapper;
 import com.example.myblog.mapper.UserFavoritesBlogMapper;
+import com.example.myblog.mapper.UserMapper;
 import com.example.myblog.service.FavoritesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper, U
     FavoritesMapper favoritesMapper;
     @Autowired
     UserFavoritesBlogMapper userFavoritesBlogMapper;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public Favorites getFavorites(int userId, int favoritesId) {
@@ -79,12 +83,27 @@ public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper, U
     }
 
     @Override
-    public void insertBlogToFavorites(int userId, int favoritesId, int blogId) {
+    public boolean insertBlogToFavorites(int userId, int favoritesId, int blogId) {
+        boolean canInsert = true;
+        if (!userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getId, userId)))
+            canInsert = false;
+        if (!favoritesMapper.exists(new LambdaQueryWrapper<Favorites>().eq(Favorites::getId, favoritesId)))
+            canInsert = false;
+        if (!blogMapper.exists(new LambdaQueryWrapper<Blog>().eq(Blog::getId, blogId)))
+            canInsert = false;
+        LambdaQueryWrapper<UserFavoritesBlog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserFavoritesBlog::getUserId, userId);
+        wrapper.eq(UserFavoritesBlog::getFavoritesId, favoritesId);
+        wrapper.eq(UserFavoritesBlog::getBlogId, blogId);
+        if (userFavoritesBlogMapper.selectList(wrapper).size() > 0)
+            canInsert = false;
+        if (!canInsert) return false;
         UserFavoritesBlog ufb = new UserFavoritesBlog();
         ufb.setUserId(userId);
         ufb.setFavoritesId(favoritesId);
         ufb.setBlogId(blogId);
         userFavoritesBlogMapper.insert(ufb);
+        return true;
     }
 
     @Override

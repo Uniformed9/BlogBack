@@ -17,14 +17,14 @@ public class HomeController {
     BlogService blogService;
 
     @ApiOperation(value = "热门博客列表")
-    @GetMapping(path="/hotbloglist")
-    public R hotbloglist(){
-
-        return R.success(blogService.hotbloglist());
+    @GetMapping(path = "/hotBlogs")
+    public R getHotBlogs() {
+        return R.success(blogService.hotBlogList());
     }
+
     @ApiOperation(value = "最新博客列表")
-    @GetMapping(path="/timebloglist")
-    public R timebloglist(){
-        return R.success(blogService.timebloglist());
+    @GetMapping(path = "/newestBlogs")
+    public R getNewestBlogs() {
+        return R.success(blogService.newestBlogList());
     }
 }

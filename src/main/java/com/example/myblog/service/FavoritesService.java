@@ -17,7 +17,7 @@ public interface FavoritesService extends IService<UserFavoritesBlog> {
 
     boolean deleteFavorites(int userId, int favoritesId);
 
-    void insertBlogToFavorites(int userId, int favoritesId, int blogId);
+    boolean insertBlogToFavorites(int userId, int favoritesId, int blogId);
 
     List<Blog> getBlogs(int userId, int favoritesId);
 
