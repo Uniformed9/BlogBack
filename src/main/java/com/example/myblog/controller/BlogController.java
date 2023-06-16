@@ -17,7 +17,6 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     UserService userService;
-
     @ApiOperation(value = "获取博客的内容")
     @GetMapping()
     public R getBlog(@PathVariable int id) {
@@ -37,4 +36,6 @@ public class BlogController {
     public R getAuthorInfo(@PathVariable int id) {
         return R.success(userService.selectUserByuserId(id));
     }
+
+
 }

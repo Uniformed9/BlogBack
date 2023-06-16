@@ -3,6 +3,7 @@ package com.example.myblog.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.myblog.common.R;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.BlogTags;
 import com.example.myblog.entity.Tag;
@@ -147,4 +148,5 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public boolean updateBlog(Blog blog) {
         return blogMapper.updateById(blog) >= 0;
     }
+
 }

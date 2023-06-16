@@ -83,3 +83,8 @@ public interface BlogService extends IService<Blog> {
      */
     List<Blog> newestBlogList();
 }
+
+    List<Blog> hotbloglist();
+
+    List<Blog>  timebloglist();
+}
