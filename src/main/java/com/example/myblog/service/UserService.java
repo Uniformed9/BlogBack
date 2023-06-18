@@ -14,4 +14,6 @@ public interface UserService extends IService<User> {
     Map<Integer,User> getUserMap();
 
     User selectUserByuserId(int id);
+
+    boolean modifyUserStatus(int id, int status);
 }
