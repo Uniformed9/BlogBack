@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.myblog.dto.UserDto;
 import com.example.myblog.entity.User;
 import com.example.myblog.exception.HaveDisabledException;
+import com.example.myblog.exception.NewUserException;
 import com.example.myblog.exception.PasswordWrongException;
 import com.example.myblog.exception.SameNameException;
 import com.example.myblog.mapper.UserMapper;
@@ -35,6 +36,7 @@ import static com.example.myblog.util.RedisUtil.LOGIN_USER_TTL;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private UserMapper userMapper;
     @Value("E:/code/myblog/source/user/")
@@ -51,6 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userLambdaQueryWrapper.eq(User::getUserName, userName);
         User user = getOne(userLambdaQueryWrapper);
         if (user == null) {
+//            throw new NewUserException("新用户需要注册");
             //是新用户,自动注册
             user = new User();
             user.setUserName(userName);
@@ -63,12 +66,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             //将用户的信息存到session中，这样可以通过过滤器
             //随机生成token作为登录令牌
             String token = UUID.randomUUID().toString();
-
+            //待删除的功能
             UserDto userDto = new UserDto();
             userDto.setId(user.getId());
             userDto.setToken(token);
             userDto.setUserName(userName);
             userDto.setPassword(password);
+            userDto.setEmail(email);
+            userDto.setAvatar(avatar);
+            userDto.setNickName(nickname);
             userDto.setStatus(1);
 
             Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
