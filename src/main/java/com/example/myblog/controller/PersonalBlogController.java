@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
+import java.sql.Date;
 
 @RestController
 @RequestMapping(path = "/user/{id}/home/blogs")
@@ -25,8 +25,14 @@ public class PersonalBlogController {
 
     @ApiOperation(value = "在我的博客中搜索")
     @GetMapping(path = "/search/{term}")
-    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term, @RequestBody Time startTime, @RequestBody Time endTime) {
-        return R.success(blogService.personalBlogsSearch(id, startTime, endTime, term));
+    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term,
+                             Integer sY, Integer sM, Integer sD,
+                             Integer eY, Integer eM, Integer eD) {
+        Date startDate = new Date(sY, sM, sD);
+        Date endDate = new Date(eY, eM, eD);
+        System.out.println(startDate);
+        System.out.println(endDate);
+        return R.success(blogService.personalBlogsSearch(id, startDate, endDate, term));
     }
 
     @ApiOperation(value = "删除博客")
@@ -37,18 +43,20 @@ public class PersonalBlogController {
 
     @ApiOperation(value = "创建博客")
     @PostMapping()
-    public R createMyBlog(@RequestBody Blog blog) {
+    public R createMyBlog(@PathVariable int id, @RequestBody Blog blog) {
         if (blogService.isBlogExist(blog.getId())) {
             return R.error("Blog is exist, cannot create an exist blog.");
         } else {
+            blog.setUserId(id);
             blogService.insertBlog(blog);
         }
         return R.success();
     }
 
     @ApiOperation(value = "更新博客")
-    @PutMapping()
-    public R updateMyBlog(@RequestBody Blog blog) {
-        return R.success(blogService.modifyBlog(blog));
+    @PutMapping("/{blog_id}")
+    public R updateMyBlog(@PathVariable int blog_id, @RequestBody Blog blog) {
+        blog.setId(blog_id);
+        return R.success(blogService.updateBlog(blog));
     }
 }
