@@ -50,7 +50,11 @@ public class GlobalExceptionHandler {
         String message=exception.getMessage();
         return R.error(message);
     }
-
+    @ExceptionHandler(NewUserException.class)
+    public R<String> NewUserException(NewUserException e){
+        String message=e.getMessage();
+        return R.error(message);
+    }
     @ExceptionHandler(SameNameException.class)
     public  R<String> SameNameException(SameNameException e){
         String message=e.getMessage();

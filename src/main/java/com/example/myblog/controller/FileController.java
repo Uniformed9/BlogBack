@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 //根据路径再次访问服务器获得头像
 @RestController
 @RequestMapping("/file")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Api(tags = "文件操作")
 public class FileController {
     @Autowired
@@ -36,14 +36,8 @@ public class FileController {
         String filename = fileService.upload(file, location);
         return R.success(filename);
     }
-    //先别用这个
-    @GetMapping ("/download2")
-    @ApiOperation("下载文件")
-    public ResponseEntity<byte[]> download (HttpServletResponse servletResponse,@ApiParam("路径")String location) throws IOException {
 
-        return fileService.download(servletResponse,location);
-    }
-    @RequestMapping("/download")
+    @GetMapping ("/download")
     public void download(String location, HttpServletResponse response) {
         try {
             // path是指想要下载的文件的路径
@@ -71,6 +65,9 @@ public class FileController {
             // filename表示文件的默认名称，因为网络传输只支持URL编码的相关支付，因此需要将文件名URL编码后进行传输,前端收到后需要反编码才能获取到真正的名称
             response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
             // 告知浏览器文件的大小
+            //不知道为什么这里要设置这个，本来已经配置了拦截器的
+            response.setHeader("Access-Control-Allow-Origin","*");
+            response.setHeader("Access-Control-Expose-Headers","*");
             response.addHeader("Content-Length", "" + file.length());
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/octet-stream");
@@ -79,6 +76,13 @@ public class FileController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    //先别用这个
+    @GetMapping ("/download2")
+    @ApiOperation("下载文件")
+    public ResponseEntity<byte[]> download (HttpServletResponse servletResponse,@ApiParam("路径")String location) throws IOException {
+
+        return fileService.download(servletResponse,location);
     }
 
 }
