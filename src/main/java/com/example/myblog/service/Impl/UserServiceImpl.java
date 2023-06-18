@@ -36,7 +36,6 @@ import static com.example.myblog.util.RedisUtil.LOGIN_USER_TTL;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-    private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private UserMapper userMapper;
     @Value("E:/code/myblog/source/user/")
