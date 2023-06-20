@@ -137,8 +137,14 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
-    public void insertBlog(Blog blog) {
+    public int insertBlog(Blog blog) {
         blogMapper.insert(blog);
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Blog::getUserId,blog.getUserId());
+        wrapper.eq(Blog::getTitle,blog.getTitle());
+        wrapper.eq(Blog::getDescription,blog.getDescription());
+        return blogMapper.selectOne(wrapper).getId();
+
     }
 
     @Override

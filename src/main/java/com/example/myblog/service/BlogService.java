@@ -42,7 +42,7 @@ public interface BlogService extends IService<Blog> {
     /**
      * 插入博客
      */
-    void insertBlog(Blog blog);
+    int insertBlog(Blog blog);
 
     /**
      * 修改博客

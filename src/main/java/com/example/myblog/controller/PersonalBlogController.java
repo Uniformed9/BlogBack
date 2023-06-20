@@ -75,8 +75,7 @@ public class PersonalBlogController {
         blog.setViews(0);
         blog.setPublished((byte) 1);
         blog.setCommentabled((byte) 1);
-        blogService.insertBlog(blog);
-        return R.success();
+        return R.success(blogService.insertBlog(blog));
     }
 
     @ApiOperation(value = "添加标签")
@@ -96,6 +95,6 @@ public class PersonalBlogController {
     @ApiOperation(value = "删除标签")
     @DeleteMapping(path = "/{blog_id}/tag")
     public R deleteTag(@PathVariable int blog_id, @RequestBody String tag) {
-        return R.success(blogService.deleteTag(blog_id,tagService.selectByName(tag).getId()));
+        return R.success(blogService.deleteTag(blog_id, tagService.selectByName(tag).getId()));
     }
 }
