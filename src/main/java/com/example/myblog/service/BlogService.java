@@ -42,7 +42,7 @@ public interface BlogService extends IService<Blog> {
     /**
      * 插入博客
      */
-    void insertBlog(Blog blog);
+    int insertBlog(Blog blog);
 
     /**
      * 修改博客
@@ -77,4 +77,7 @@ public interface BlogService extends IService<Blog> {
      * 最新博客
      */
     List<Blog> newestBlogList();
+
+    void addTag(int blogId, int tagId);
+    boolean deleteTag(int blogId, int tagId);
 }
