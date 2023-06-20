@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/user/{id}/home/blogs")
@@ -25,14 +25,8 @@ public class PersonalBlogController {
 
     @ApiOperation(value = "在我的博客中搜索")
     @GetMapping(path = "/search/{term}")
-    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term,
-                             Integer sY, Integer sM, Integer sD,
-                             Integer eY, Integer eM, Integer eD) {
-        Date startDate = new Date(sY, sM, sD);
-        Date endDate = new Date(eY, eM, eD);
-        System.out.println(startDate);
-        System.out.println(endDate);
-        return R.success(blogService.personalBlogsSearch(id, startDate, endDate, term));
+    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term) {
+        return R.success(blogService.personalBlogsSearch(id, term));
     }
 
     @ApiOperation(value = "删除博客")
@@ -41,22 +35,41 @@ public class PersonalBlogController {
         return R.success(blogService.deleteBlog(blog_id));
     }
 
-    @ApiOperation(value = "创建博客")
-    @PostMapping()
-    public R createMyBlog(@PathVariable int id, @RequestBody Blog blog) {
-        if (blogService.isBlogExist(blog.getId())) {
-            return R.error("Blog is exist, cannot create an exist blog.");
-        } else {
-            blog.setUserId(id);
-            blogService.insertBlog(blog);
-        }
-        return R.success();
-    }
+//    @ApiOperation(value = "创建博客")
+//    @PostMapping()
+//    public R createMyBlog(@PathVariable int id, @RequestBody Blog blog) {
+//        if (blogService.isBlogExist(blog.getId())) {
+//            return R.error("Blog is exist, cannot create an exist blog.");
+//        } else {
+//            blog.setUserId(id);
+//            blogService.insertBlog(blog);
+//        }
+//        return R.success();
+//    }
 
     @ApiOperation(value = "更新博客")
     @PutMapping("/{blog_id}")
-    public R updateMyBlog(@PathVariable int blog_id, @RequestBody Blog blog) {
-        blog.setId(blog_id);
-        return R.success(blogService.updateBlog(blog));
+    public R updateMyBlog(@PathVariable int blog_id, @RequestBody Map<String, String> bm) {
+        Blog blog = blogService.getBlogById(blog_id);
+        blog.setContent(bm.get("content"));
+        blog.setDescription(bm.get("description"));
+        blog.setTitle(bm.get("title"));
+        blogService.insertBlog(blog);
+        return R.success();
+    }
+
+    @ApiOperation(value = "创建博客")
+    @PostMapping()
+    public R createMyBlog(@PathVariable int id, @RequestBody Map<String, String> bm) {
+        Blog blog = new Blog();
+        blog.setUserId(id);
+        blog.setContent(bm.get("content"));
+        blog.setDescription(bm.get("description"));
+        blog.setTitle(bm.get("title"));
+        blog.setViews(0);
+        blog.setPublished((byte) 1);
+        blog.setCommentabled((byte) 1);
+        blogService.insertBlog(blog);
+        return R.success();
     }
 }

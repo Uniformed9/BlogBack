@@ -19,12 +19,12 @@ public class BlogServiceTest {
 
     @Test
     void searchBlog() {
-        System.out.println(blogService.searchBlog(null, null, "test"));
+        System.out.println(blogService.searchBlog("test"));
     }
 
     @Test
     void personalBlogsSearch() {
-        System.out.println(blogService.personalBlogsSearch(1, null, null, "test"));
+        System.out.println(blogService.personalBlogsSearch(1, "test"));
     }
 
     @Test
