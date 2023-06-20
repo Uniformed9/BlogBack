@@ -26,6 +26,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Autowired
     TagMapper tagMapper;
 
+
     @Override
     public List<Blog> hotBlogList() {
         LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
@@ -145,4 +146,24 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         return blogMapper.updateById(blog) >= 0;
     }
 
+    @Override
+    public boolean deleteTag(int blogId, int tagId) {
+        LambdaQueryWrapper<BlogTags> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BlogTags::getTagId,tagId);
+        wrapper.eq(BlogTags::getBlogId,blogId);
+        if(blogTagsMapper.exists(wrapper)){
+            blogTagsMapper.delete(wrapper);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public void addTag(int blogId, int tagId) {
+        BlogTags blogTags = new BlogTags();
+        blogTags.setBlogId(blogId);
+        blogTags.setTagId(tagId);
+        blogTagsMapper.insert(blogTags);
+    }
 }

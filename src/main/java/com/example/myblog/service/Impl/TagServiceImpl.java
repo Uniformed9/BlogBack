@@ -28,7 +28,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     BlogMapper blogMapper;
 
     @Override
-    public void insertTag(Tag tag) {
+    public void insertTag(String name) {
+        Tag tag = new Tag();
+        tag.setName(name);
         tagMapper.insert(tag);
     }
 

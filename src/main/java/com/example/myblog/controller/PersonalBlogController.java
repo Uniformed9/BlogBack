@@ -2,12 +2,15 @@ package com.example.myblog.controller;
 
 import com.example.myblog.common.R;
 import com.example.myblog.entity.Blog;
+import com.example.myblog.entity.Tag;
 import com.example.myblog.service.BlogService;
+import com.example.myblog.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,6 +19,8 @@ import java.util.Map;
 public class PersonalBlogController {
     @Autowired
     BlogService blogService;
+    @Autowired
+    TagService tagService;
 
     @ApiOperation(value = "我的博客")
     @GetMapping()
@@ -51,10 +56,11 @@ public class PersonalBlogController {
     @PutMapping("/{blog_id}")
     public R updateMyBlog(@PathVariable int blog_id, @RequestBody Map<String, String> bm) {
         Blog blog = blogService.getBlogById(blog_id);
-        blog.setContent(bm.get("content"));
-        blog.setDescription(bm.get("description"));
-        blog.setTitle(bm.get("title"));
-        blogService.insertBlog(blog);
+        System.out.println(blog);
+        if (bm.containsKey("content")) blog.setContent(bm.get("content"));
+        if (bm.containsKey("description")) blog.setDescription(bm.get("description"));
+        if (bm.containsKey("title")) blog.setTitle(bm.get("title"));
+        blogService.updateBlog(blog);
         return R.success();
     }
 
@@ -71,5 +77,25 @@ public class PersonalBlogController {
         blog.setCommentabled((byte) 1);
         blogService.insertBlog(blog);
         return R.success();
+    }
+
+    @ApiOperation(value = "添加标签")
+    @PostMapping(path = "/{blog_id}/tag")
+    public R addTag(@PathVariable int blog_id, @RequestBody List<String> tags) {
+        for (String tagName : tags) {
+            if (tagService.selectByName(tagName) == null) {
+                tagService.insertTag(tagName);
+            }
+            Tag tag = tagService.selectByName(tagName);
+            int tagId = tag.getId();
+            blogService.addTag(blog_id, tagId);
+        }
+        return R.success();
+    }
+
+    @ApiOperation(value = "删除标签")
+    @DeleteMapping(path = "/{blog_id}/tag")
+    public R deleteTag(@PathVariable int blog_id, @RequestBody String tag) {
+        return R.success(blogService.deleteTag(blog_id,tagService.selectByName(tag).getId()));
     }
 }

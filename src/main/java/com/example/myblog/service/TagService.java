@@ -11,9 +11,8 @@ public interface TagService extends IService<Tag> {
     /**
      * 插入tag
      *
-     * @param tag
      */
-    void insertTag(Tag tag);
+    void insertTag(String  name);
 
     /**
      * 根据标签id搜索tag

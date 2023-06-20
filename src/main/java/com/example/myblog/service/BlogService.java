@@ -77,4 +77,7 @@ public interface BlogService extends IService<Blog> {
      * 最新博客
      */
     List<Blog> newestBlogList();
+
+    void addTag(int blogId, int tagId);
+    boolean deleteTag(int blogId, int tagId);
 }
