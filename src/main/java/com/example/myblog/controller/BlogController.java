@@ -22,11 +22,12 @@ public class BlogController {
     @Autowired
     UserService userService;
     @ApiOperation(value = "获取博客的内容")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public R getBlog(@PathVariable int id) {
         if (!blogService.isBlogExist(id)) return R.error("Blog " + id + " is not exist!");
         return R.success(blogService.getBlogById(id));
     }
+
     @ApiOperation(value = "获取全部博客的内容")
     @GetMapping("/getAll")
     public  R<List<Blog>> getBlogAll(){
