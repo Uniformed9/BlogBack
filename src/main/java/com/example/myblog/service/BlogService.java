@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.Tag;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 public interface BlogService extends IService<Blog> {
@@ -15,23 +13,19 @@ public interface BlogService extends IService<Blog> {
     /**
      * 时间范围内搜索博客
      *
-     * @param startDate  起始日期
-     * @param endDate    末尾日期
      * @param searchTerm 搜索词
      * @return 博客列表
      */
-    List<Blog> searchBlog(Date startDate, Date endDate, String searchTerm);
+    List<Blog> searchBlog(String searchTerm);
 
     /**
      * 搜索单个博主的博客
      *
      * @param id         博主id
-     * @param startDate  起始日期
-     * @param endDate    末尾日期
      * @param searchTerm 搜索词
      * @return 博客列表
      */
-    List<Blog> personalBlogsSearch(int id, Date startDate, Date endDate, String searchTerm);
+    List<Blog> personalBlogsSearch(int id, String searchTerm);
 
     /**
      * 博主的所有博客

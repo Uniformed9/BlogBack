@@ -25,14 +25,8 @@ public class PersonalBlogController {
 
     @ApiOperation(value = "在我的博客中搜索")
     @GetMapping(path = "/search/{term}")
-    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term,
-                             Integer sY, Integer sM, Integer sD,
-                             Integer eY, Integer eM, Integer eD) {
-        Date startDate = new Date(sY, sM, sD);
-        Date endDate = new Date(eY, eM, eD);
-        System.out.println(startDate);
-        System.out.println(endDate);
-        return R.success(blogService.personalBlogsSearch(id, startDate, endDate, term));
+    public R searchInMyBlogs(@PathVariable int id, @PathVariable String term) {
+        return R.success(blogService.personalBlogsSearch(id, term));
     }
 
     @ApiOperation(value = "删除博客")
