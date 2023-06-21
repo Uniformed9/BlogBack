@@ -5,6 +5,7 @@ import com.example.myblog.entity.Blog;
 import com.example.myblog.entity.Tag;
 import com.example.myblog.service.BlogService;
 import com.example.myblog.service.TagService;
+import com.example.myblog.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class PersonalBlogController {
     BlogService blogService;
     @Autowired
     TagService tagService;
+    @Autowired
+    UserService userService;
 
     @ApiOperation(value = "我的博客")
     @GetMapping()
@@ -39,18 +42,6 @@ public class PersonalBlogController {
     public R deleteMyBlog(@PathVariable int blog_id) {
         return R.success(blogService.deleteBlog(blog_id));
     }
-
-//    @ApiOperation(value = "创建博客")
-//    @PostMapping()
-//    public R createMyBlog(@PathVariable int id, @RequestBody Blog blog) {
-//        if (blogService.isBlogExist(blog.getId())) {
-//            return R.error("Blog is exist, cannot create an exist blog.");
-//        } else {
-//            blog.setUserId(id);
-//            blogService.insertBlog(blog);
-//        }
-//        return R.success();
-//    }
 
     @ApiOperation(value = "更新博客")
     @PutMapping("/{blog_id}")
@@ -72,6 +63,7 @@ public class PersonalBlogController {
         blog.setContent(bm.get("content"));
         blog.setDescription(bm.get("description"));
         blog.setTitle(bm.get("title"));
+        blog.setUserNickname(userService.selectUserByuserId(id).getNickName());
         blog.setViews(0);
         blog.setPublished((byte) 1);
         blog.setCommentabled((byte) 1);

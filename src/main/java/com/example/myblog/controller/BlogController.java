@@ -18,7 +18,7 @@ public class BlogController {
     UserService userService;
 
     @ApiOperation(value = "获取全部博客")
-    @GetMapping("/all")
+    @GetMapping("/search/")
     public R getAllBlogs(){
         return R.success(blogService.list());
     }
@@ -43,5 +43,10 @@ public class BlogController {
         return R.success(userService.selectUserByuserId(id));
     }
 
+    @ApiOperation(value = "搜索")
+    @GetMapping(path = "/search/{term}")
+    public R search(@PathVariable String term){
+        return R.success(blogService.searchBlog(term));
+    }
 
 }
