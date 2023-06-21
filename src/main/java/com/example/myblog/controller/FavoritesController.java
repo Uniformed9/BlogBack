@@ -23,22 +23,22 @@ public class FavoritesController {
     }
 
     @ApiOperation(value = "添加收藏夹")
-    @PostMapping()
-    public R addFavorite(@PathVariable int user_id, @RequestBody String name) {
+    @PostMapping(path = "/{name}")
+    public R addFavorite(@PathVariable int user_id, @PathVariable String name) {
         favoritesService.insertFavorites(user_id, name);
         return R.success();
     }
 
     @ApiOperation(value = "修改收藏夹名")
-    @PutMapping(path = "/{favorites_id}")
-    public R updateFavorite(@PathVariable int user_id, @PathVariable int favorites_id, @RequestBody String name) {
+    @PutMapping(path = "/{favorites_id}&{name}")
+    public R updateFavorite(@PathVariable int user_id, @PathVariable int favorites_id, @PathVariable String name) {
         favoritesService.updateFavoritesName(user_id, favorites_id, name);
         return R.success();
     }
 
     @ApiOperation(value = "删除收藏夹")
-    @DeleteMapping()
-    public R deleteFavorite(@PathVariable int user_id, @RequestBody int favorites_id) {
+    @DeleteMapping(path = "/{favorites_id}")
+    public R deleteFavorite(@PathVariable int user_id, @PathVariable int favorites_id) {
         return R.success(favoritesService.deleteFavorites(user_id, favorites_id));
     }
 
@@ -49,14 +49,20 @@ public class FavoritesController {
     }
 
     @ApiOperation(value = "添加收藏")
-    @PostMapping(path = "/{favorites_id}")
-    public R addBlogToFavorites(@PathVariable int user_id, @PathVariable int favorites_id, @RequestBody int blog_id) {
+    @PostMapping(path = "/{favorites_id}/{blog_id}")
+    public R addBlogToFavorites(@PathVariable int user_id, @PathVariable int favorites_id, @PathVariable int blog_id) {
         return R.success(favoritesService.insertBlogToFavorites(user_id, favorites_id, blog_id));
     }
 
     @ApiOperation(value = "删除收藏")
-    @DeleteMapping(path = "/{favorites_id}")
-    public R deleteBlogFromFavorites(@PathVariable int user_id, @PathVariable int favorites_id, @RequestBody int blog_id) {
+    @DeleteMapping(path = "/{favorites_id}/{blog_id}")
+    public R deleteBlogFromFavorites(@PathVariable int user_id, @PathVariable int favorites_id, @PathVariable int blog_id) {
         return R.success(favoritesService.deleteBlogInFavorites(user_id, favorites_id, blog_id));
+    }
+
+    @ApiOperation(value = "获取所有收藏")
+    @GetMapping(path = "/allblog")
+    public R getAllBlogsInFavorites(@PathVariable int user_id) {
+        return R.success(favoritesService.getAllBlogsInFavorites(user_id));
     }
 }

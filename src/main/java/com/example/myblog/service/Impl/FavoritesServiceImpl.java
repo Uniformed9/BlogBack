@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper, UserFavoritesBlog> implements FavoritesService {
@@ -80,6 +82,16 @@ public class FavoritesServiceImpl extends ServiceImpl<UserFavoritesBlogMapper, U
         wrapper.eq(UserFavoritesBlog::getFavoritesId, favoritesId);
         userFavoritesBlogMapper.delete(wrapper);
         return true;
+    }
+
+    @Override
+    public Map<Integer, List<Blog>> getAllBlogsInFavorites(int userId) {
+        Map<Integer, List<Blog>> res = new HashMap<>();
+        List<Favorites> l = getFavorites(userId);
+        for (Favorites f : l) {
+            res.put(f.getId(), getBlogs(userId, f.getId()));
+        }
+        return res;
     }
 
     @Override
