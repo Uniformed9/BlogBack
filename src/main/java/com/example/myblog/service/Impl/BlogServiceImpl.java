@@ -140,11 +140,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public int insertBlog(Blog blog) {
         blogMapper.insert(blog);
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getUserId,blog.getUserId());
-        wrapper.eq(Blog::getTitle,blog.getTitle());
-        wrapper.eq(Blog::getDescription,blog.getDescription());
-        return blogMapper.selectOne(wrapper).getId();
-
+        wrapper.eq(Blog::getUserId, blog.getUserId());
+        wrapper.eq(Blog::getTitle, blog.getTitle());
+        wrapper.eq(Blog::getDescription, blog.getDescription());
+        List<Blog> l = blogMapper.selectList(wrapper);
+        return l.get(l.size() - 1).getId();
     }
 
     @Override
@@ -155,12 +155,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public boolean deleteTag(int blogId, int tagId) {
         LambdaQueryWrapper<BlogTags> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(BlogTags::getTagId,tagId);
-        wrapper.eq(BlogTags::getBlogId,blogId);
-        if(blogTagsMapper.exists(wrapper)){
+        wrapper.eq(BlogTags::getTagId, tagId);
+        wrapper.eq(BlogTags::getBlogId, blogId);
+        if (blogTagsMapper.exists(wrapper)) {
             blogTagsMapper.delete(wrapper);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
