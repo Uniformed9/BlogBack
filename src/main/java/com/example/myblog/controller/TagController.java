@@ -18,7 +18,7 @@ public class TagController {
     @Autowired
     TagService tagService;
 
-    @GetMapping()
+    @GetMapping("/getAll")
     public R tagList(){
         return R.success(tagService.list());
     }

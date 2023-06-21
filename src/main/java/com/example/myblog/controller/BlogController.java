@@ -11,7 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/blog")
@@ -21,9 +23,16 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     UserService userService;
+
+    @ApiOperation(value = "获取全部博客")
+    @GetMapping("/all")
+    public R getAllBlogs(){
+        return R.success(blogService.list());
+    }
+
     @ApiOperation(value = "获取博客的内容")
-    @GetMapping("/{id}")
-    public R getBlog(@PathVariable int id) {
+    @GetMapping()
+    public R getBlog(@RequestBody int id) {
         if (!blogService.isBlogExist(id)) return R.error("Blog " + id + " is not exist!");
         return R.success(blogService.getBlogById(id));
     }
@@ -36,14 +45,14 @@ public class BlogController {
     }
     @ApiOperation(value = "获取博客标签")
     @GetMapping(path = "/tags")
-    public R getBlogTags(@PathVariable int id) {
+    public R getBlogTags(@RequestBody int id) {
         if (!blogService.isBlogExist(id)) return R.error("Blog " + id + " is not exist!");
         return R.success(blogService.getTagsByBlogId(id));
     }
 
     @ApiOperation(value = "获取作者信息")
     @GetMapping(path = "/author")
-    public R getAuthorInfo(@PathVariable int id) {
+    public R getAuthorInfo(@RequestBody int id) {
         return R.success(userService.selectUserByuserId(id));
     }
 
