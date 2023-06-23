@@ -6,6 +6,7 @@ import com.example.myblog.entity.Favorites;
 import com.example.myblog.entity.UserFavoritesBlog;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FavoritesService extends IService<UserFavoritesBlog> {
 
@@ -26,4 +27,6 @@ public interface FavoritesService extends IService<UserFavoritesBlog> {
     boolean isFavoritesExist(int userId, int favoritesId);
 
     Favorites getFavorites(int userId, int favoritesId);
+
+    Map<Integer,List<Blog>> getAllBlogsInFavorites(int userId);
 }

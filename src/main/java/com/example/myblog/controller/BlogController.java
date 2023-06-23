@@ -31,8 +31,8 @@ public class BlogController {
     }
 
     @ApiOperation(value = "获取博客的内容")
-    @GetMapping()
-    public R getBlog(@RequestBody int id) {
+    @GetMapping(path = "/{id}")
+    public R getBlog(@PathVariable int id) {
         if (!blogService.isBlogExist(id)) return R.error("Blog " + id + " is not exist!");
         return R.success(blogService.getBlogById(id));
     }
@@ -44,15 +44,15 @@ public class BlogController {
         return R.success(list);
     }
     @ApiOperation(value = "获取博客标签")
-    @GetMapping(path = "/tags")
-    public R getBlogTags(@RequestBody int id) {
+    @GetMapping(path = "/{id}/tags")
+    public R getBlogTags(@PathVariable int id) {
         if (!blogService.isBlogExist(id)) return R.error("Blog " + id + " is not exist!");
         return R.success(blogService.getTagsByBlogId(id));
     }
 
     @ApiOperation(value = "获取作者信息")
-    @GetMapping(path = "/author")
-    public R getAuthorInfo(@RequestBody int id) {
+    @GetMapping(path = "/{id}/author")
+    public R getAuthorInfo(@PathVariable int id) {
         return R.success(userService.selectUserByuserId(id));
     }
 
