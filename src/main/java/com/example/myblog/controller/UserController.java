@@ -51,6 +51,7 @@ public class UserController {
             return R.error("用户名已经存在");
         }
     }
+
     @GetMapping("/getById")
     public R<User> getById(@RequestParam  Integer id){
         User user=userService.getById(id);
