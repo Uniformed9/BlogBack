@@ -77,6 +77,18 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
+    public void view(int blogId) {
+        Blog blog = blogMapper.selectById(blogId);
+        blog.setViews(blog.getViews() + 1);
+        blogMapper.updateById(blog);
+    }
+
+    @Override
+    public int viewNum(int blogId) {
+        return blogMapper.selectById(blogId).getViews();
+    }
+
+    @Override
     public List<Blog> searchBlog(String searchTerm) {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
 //        wrapper.eq(Blog::getPublished, true);

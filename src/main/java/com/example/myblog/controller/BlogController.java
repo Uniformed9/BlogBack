@@ -22,7 +22,7 @@ public class BlogController {
 
     @ApiOperation(value = "获取全部博客")
     @GetMapping("/search/")
-    public R getAllBlogs(){
+    public R getAllBlogs() {
         return R.success(blogService.list());
     }
 
@@ -35,10 +35,11 @@ public class BlogController {
 
     @ApiOperation(value = "获取全部博客的内容")
     @GetMapping("/getAll")
-    public  R<List<Blog>> getBlogAll(){
+    public R<List<Blog>> getBlogAll() {
         List<Blog> list = blogService.list();
         return R.success(list);
     }
+
     @ApiOperation(value = "获取博客标签")
     @GetMapping(path = "/{id}/tags")
     public R getBlogTags(@PathVariable int id) {
@@ -54,8 +55,20 @@ public class BlogController {
 
     @ApiOperation(value = "搜索")
     @GetMapping(path = "/search/{term}")
-    public R search(@PathVariable String term){
+    public R search(@PathVariable String term) {
         return R.success(blogService.searchBlog(term));
     }
 
+    @ApiOperation(value = "浏览")
+    @PostMapping(path = "/view/{id}")
+    public R view(@PathVariable int id) {
+        blogService.view(id);
+        return R.success();
+    }
+
+    @ApiOperation(value = "浏览")
+    @GetMapping(path = "/view/{id}")
+    public R viewNum(@PathVariable int id) {
+        return R.success(blogService.viewNum(id));
+    }
 }
