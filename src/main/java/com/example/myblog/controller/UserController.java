@@ -51,6 +51,15 @@ public class UserController {
             return R.error("用户名已经存在");
         }
     }
+    @GetMapping("/getById")
+    public R<User> getById(@RequestParam  Integer id){
+        User user=userService.getById(id);
+        if(user!=null){
+            return R.success(user);
+        }else{
+            return R.error("没有对应用户");
+        }
+    }
     @GetMapping("/test")
     public String test(){
         return "测试接口";
