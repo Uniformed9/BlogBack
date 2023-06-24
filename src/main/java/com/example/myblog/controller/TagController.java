@@ -22,4 +22,10 @@ public class TagController {
     public R tagList(){
         return R.success(tagService.list());
     }
+
+    @GetMapping("/add")
+    public R addtag(String name){
+        tagService.insertTag(name);
+        return R.success();
+    }
 }

@@ -77,7 +77,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
+    public void view(int blogId) {
+        Blog blog = blogMapper.selectById(blogId);
+        blog.setViews(blog.getViews() + 1);
+        blogMapper.updateById(blog);
+    }
+
+    @Override
+    public int viewNum(int blogId) {
+        return blogMapper.selectById(blogId).getViews();
+    }
+
+    @Override
     public List<Blog> searchBlog(String searchTerm) {
+        System.out.println(searchTerm);
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
 //        wrapper.eq(Blog::getPublished, true);
         LambdaQueryWrapper<Blog> NickNameWrapper = wrapper.clone().like(Blog::getUserNickname, searchTerm);
@@ -85,9 +98,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         LambdaQueryWrapper<Blog> DescriptionWrapper = wrapper.clone().like(Blog::getDescription, searchTerm);
         LambdaQueryWrapper<Blog> ContentWrapper = wrapper.clone().like(Blog::getContent, searchTerm);
         List<Blog> l1 = blogMapper.selectList(NickNameWrapper);
+        System.out.println("nickname:"+l1);
         List<Blog> l2 = blogMapper.selectList(TitleWrapper);
+        System.out.println("title:"+l2);
         List<Blog> l3 = blogMapper.selectList(DescriptionWrapper);
+        System.out.println("desc:"+l3);
         List<Blog> l4 = blogMapper.selectList(ContentWrapper);
+        System.out.println("cont:"+l4);
         List<Blog> all = Stream.of(l1, l2, l3, l4).flatMap(Collection::stream).collect(Collectors.toList());
 //        System.out.println(all);
         List<Integer> index = new ArrayList<>();
