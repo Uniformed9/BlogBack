@@ -41,14 +41,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         converters.add(0,converter);
     }
     //拦截的顺寻一定要先检验token是否有user再用logininterceptor拦截，同步关系
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/user/login","/user/register","/index.html","/js/**","/css/**","/swagger-resources/**"
-                ,"/webjars/**"
-                ,"/v2/**"
-                ,"/swagger-ui.html/**").order(1);
-        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").order(0);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/user/login","/user/register","/index.html","/js/**","/css/**","/swagger-resources/**"
+//                ,"/webjars/**"
+//                ,"/v2/**"
+//                ,"/swagger-ui.html/**").order(1);
+//        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").order(0);
+//    }
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
