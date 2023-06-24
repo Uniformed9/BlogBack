@@ -145,32 +145,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     //上传头像文件
-    public User Register(@RequestBody Map<String, String> map, MultipartFile avatar) {
-        String userName = map.get("userName");
-        String password = map.get("password");
-        String nickname = map.get("nickname");
-        String email = map.get("email");
-//        String avatar=map.get("avatar");
+    public User Register(String userName,String password,String nickName,String email , MultipartFile avatar) {
 
+//
         LambdaQueryWrapper<User> usernameLambdaQueryWrapper = new LambdaQueryWrapper<>();
         usernameLambdaQueryWrapper.eq(User::getUserName, userName);
-
+//
         LambdaQueryWrapper<User> nicknameLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        nicknameLambdaQueryWrapper.eq(User::getNickName, nickname);
-        //用户名，昵称已被占用，无法注册
+        nicknameLambdaQueryWrapper.eq(User::getNickName, nickName);
+//        //用户名，昵称已被占用，无法注册
         if (getOne(usernameLambdaQueryWrapper) != null) {
             throw new SameNameException("用户名已存在");
         }
         if (getOne(nicknameLambdaQueryWrapper) != null) {
             throw new SameNameException("昵称已存在");
         }
-        //开始注册
-
+//        //开始注册
+//
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
         user.setStatus(1);
-        user.setNickName(nickname);
+        user.setNickName(nickName);
         //    user.setAvatar(avatar);
         user.setEmail(email);
         //创建文件夹，把头像放在里面
@@ -181,16 +177,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             file.mkdirs();
         }
         String originalFilename = avatar.getOriginalFilename();
-        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String filepath = originalFilename + suffix;
-        File srcFile = new File(userDir + filepath);
+
+
+        File srcFile = new File(userDir +"/"+ originalFilename);
         try {
             //把前端传送的文件保存在本地中
             avatar.transferTo(srcFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        user.setAvatar(userDir + filepath);
+        user.setAvatar(userDir +"/" +originalFilename);
 
         save(user);
         return user;

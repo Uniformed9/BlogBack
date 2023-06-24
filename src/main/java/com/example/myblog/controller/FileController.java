@@ -30,10 +30,12 @@ import java.nio.file.Paths;
 public class FileController {
     @Autowired
     FileService fileService;
+
     @PostMapping("/upload")
     @ApiOperation("上传文件")
-    public R<String> upload(@ApiParam("文件") MultipartFile file,String location) {
-        String filename = fileService.upload(file, location);
+    public R<String> upload(@ApiParam(value = "multipartFile") @RequestParam MultipartFile multipartFile,String location) throws Exception{
+
+        String filename = fileService.upload(multipartFile, location);
         return R.success(filename);
     }
 
@@ -83,6 +85,12 @@ public class FileController {
     public ResponseEntity<byte[]> download (HttpServletResponse servletResponse,@ApiParam("路径")String location) throws IOException {
 
         return fileService.download(servletResponse,location);
+    }
+    @PostMapping("/test")
+    public String multipartFileTest(@ApiParam(value = "multipartFile") @RequestParam MultipartFile multipartFile,String location) throws Exception{
+        File file = new File("E:\\code\\testFile");
+        multipartFile.transferTo(file);
+        return location;
     }
 
 }

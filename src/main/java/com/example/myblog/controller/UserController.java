@@ -39,11 +39,11 @@ public class UserController {
     }
     @ApiOperation("注册")
     @PostMapping("/register")
-    public R<User> register(@RequestBody @ApiParam("userName和Password") Map<String, String> map, @RequestParam("file") MultipartFile file, HttpSession session, ServletRequest servletRequest){
+    public R<User> register( @RequestParam("file") MultipartFile multipartFile, String password,String nickName,String userName,String email,HttpSession session, ServletRequest servletRequest){
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String token = request.getHeader("Authorization");
-        User user = userService.login(map, session);
+        User user=userService.Register(userName,password,nickName,email , multipartFile) ;
 
         if (user!=null){
             return R.success(user);
@@ -66,15 +66,7 @@ public class UserController {
         return "测试接口";
     }
 
-    @GetMapping("/getById")
-    public R<User> getById(@RequestParam  Integer id){
-        User user=userService.getById(id);
-        if(user!=null){
-            return R.success(user);
-        }else{
-            return R.error("没有对应用户");
-        }
-    }
+
 
 
 }
